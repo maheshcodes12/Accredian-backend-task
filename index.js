@@ -27,7 +27,7 @@ dotenv.config({
 const app = express();
 
 app.use(cors({
-		origin: ["https://accredian-frontend-task-two-nu.vercel.app/"],
+		origin: ["https://accredian-frontend-task-two-nu.vercel.app"],
 		methods: ["POST", "GET"],
 		credentials: true,
 	}));

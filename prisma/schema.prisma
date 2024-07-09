@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String  @unique
+  password String 
+
+  // Define the relation to the referrals model
+  referrals   Referral[] @relation("Referrer")
+  refereeRefs Referral[] @relation("Referee")
+}
+
+model Referral {
+  id        Int     @id @default(autoincrement())
+  referrer  String
+  referee   String
+  status    String
+  createdAt DateTime @default(now())
+  
+  // Define foreign key relations
+  referrerUser User @relation("Referrer", fields: [referrer], references: [email])
+  refereeUser  User @relation("Referee", fields: [referee], references: [email])
+  
+  // Add an index to enforce unique constraint on pairs
+  @@unique([referrer, referee])
+}
